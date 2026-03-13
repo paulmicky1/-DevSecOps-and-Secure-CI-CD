@@ -39,9 +39,8 @@ def search():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Intentionally vulnerable query for DevSecOps demonstration.
-    sql = f"SELECT id, name FROM items WHERE name LIKE '%{query}%'"
-    cursor.execute(sql)
+    sql = "SELECT id, name FROM items WHERE name LIKE ?"
+    cursor.execute(sql, (f"%{query}%",))
     rows = cursor.fetchall()
     conn.close()
 
@@ -50,5 +49,5 @@ def search():
 
 if __name__ == "__main__":
     init_db()
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
 # Triggering a new pipeline run
